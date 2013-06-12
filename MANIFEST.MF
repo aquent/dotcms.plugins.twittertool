@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Plugin-Name: Twitter Viewtool
+Plugin-Version: 1.0
+Author: Aquent, LLC (cfalzone@aquent.com)
