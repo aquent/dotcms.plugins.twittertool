@@ -23,12 +23,17 @@ For More information see the Twitter4J website:  http://twitter4j.org/en/configu
 Usage:
 ======
 You will want to have to Twitter4J JavaDoc handy:  http://twitter4j.org/javadoc/index.html
+
 The tool is mapped to the key $twitter and currently has the following methods implemented:
 * showUser - takes a twitter screen name or user id and returns a Twitter4J User Object:  http://twitter4j.org/javadoc/twitter4j/User.html
 * getUserTimeline - takes a twitter screen name or userid, a page number, and a count and returns a List of Twitter4J Status Objects:  http://twitter4j.org/javadoc/twitter4j/Status.html
-* getFollowersList - takes a twitter screen name or userid and returns the first 20 followers for that user.  The list returned containers Twitter4J User Objects.  Note that this method is not working so well currently due to the twitter apoi rate limits on fetching this data.  If you plan on using this I would seriously reccomend using a block cache around the method
+* getFollowersList - takes a twitter screen name or userid and returns the first 20 followers for that user.  The list returned contains Twitter4J User Objects.  Note that this method is not working so well currently due to the twitter apoi rate limits on fetching this data.  If you plan on using this I would seriously reccomend using a block cache around the method
+* getUserListMembers - takes a twitter screen name or userid, and a list slug and returns up to 20 members of the list.  The list returned contains Twitter4J Objects.  Same note about twitter api rate limit applies.
 * getUserListStatuses - takes a twitter screen name or userid, a list slug, a page number, and a count and returns a list of Twitter4J Status Objects for the user's list.
-* If you would like to see more methods implemented please request them by submitting an issue to this github.
+
+If you would like to see more methods implemented please request them by submitting an issue to this github.
+
+If a method is not working check your log file, you probably exceeded the twitter api rate limit.  I would suggest wrapping any code that uses this in a block cache directive:  http://dotcms.com/docs/latest/CacheHandlingWithTags
 
 ```velocity
 ## Just defining a macro to display a status
@@ -130,6 +135,16 @@ The tool is mapped to the key $twitter and currently has the following methods i
 #foreach($follower in $followers)
   <dt> ${follower.getScreenName()}'s Info</dt>
   <dd> #displayUser($follower) </dd>
+#end
+</dl>
+
+## Get a User List's Members
+#set($members = $twitter.getUserListMembers('suzillazilla', 'team'))
+<h2> Members:</h2>
+<dl>
+#foreach($member in $members)
+  <dt> ${member.getScreenName()}'s Info</dt>
+  <dd> #displayUser($member) </dd>
 #end
 </dl>
 

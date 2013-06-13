@@ -136,12 +136,12 @@ public class TwitterTool implements ViewTool {
     }
     
     /**
-     * Gets a list of followers for the user
+     * Gets a list of up to 20 followers for the user
      * 
      * See {@link twitter4j.Twitter.getFollowersList}
      * 
      * @param screenName   The screen name to get a list of follower ids for
-     * @return             A list of the user's followers
+     * @return             A list of up to 20 of the user's followers
      */
     public PagableResponseList<User> getFollowersList(String screenName) {
     	if(inited) {
@@ -158,17 +158,63 @@ public class TwitterTool implements ViewTool {
     }
     
     /**
-     * Gets a list of followers for the user
+     * Gets a list of up to 20 followers for the user
      * 
      * See {@link twitter4j.Twitter.getFollowersList}
      * 
      * @param userId    The userid to get a list of follower ids for
-     * @return          A List of the user followers
+     * @return          A List of up to 20 of the user followers
      */
     public PagableResponseList<User> getFollowersList(long userId) {
     	if(inited) {
     		try {
-				return twitter.getFollowersList(userId, -1L);
+				return twitter.getFollowersList(userId, -1);
+			} catch (Exception e) {
+				Logger.error(this, "Error Fetching user's Followers", e);
+				return null;
+			}
+    	} else {
+    		Logger.warn(this, "ViewTool not inited");
+    		return null;
+    	}
+    }
+    
+    /**
+     * Gets a list of up to 20 members for the user's list
+     * 
+     * See {@link twitter4j.Twitter.getUserListMembers}
+     * 
+     * @param ownerScreenName    The list owner's screen name
+     * @param slug				 The list's slug
+     * @return					 A list of up to 20 of the list's members
+     */
+    public PagableResponseList<User> getUserListMembers(String ownerScreenName, String slug) {
+    	if(inited) {
+    		try {
+				return twitter.getUserListMembers(ownerScreenName, slug, -1);
+			} catch (Exception e) {
+				Logger.error(this, "Error Fetching user's Followers", e);
+				return null;
+			}
+    	} else {
+    		Logger.warn(this, "ViewTool not inited");
+    		return null;
+    	}
+    }
+    
+    /**
+     * Gets a list of up to 20 members for the user's list
+     * 
+     * See {@link twitter4j.Twitter.getUserListMembers}
+     * 
+     * @param ownerId   The list owner's id
+     * @param slug		The list's slug
+     * @return			A list of up to 20 of the list's members
+     */
+    public PagableResponseList<User> getUserListMembers(long ownerId, String slug) {
+    	if(inited) {
+    		try {
+				return twitter.getUserListMembers(ownerId, slug, -1);
 			} catch (Exception e) {
 				Logger.error(this, "Error Fetching user's Followers", e);
 				return null;
