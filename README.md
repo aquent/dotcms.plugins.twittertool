@@ -26,7 +26,7 @@ You will want to have to Twitter4J JavaDoc handy:  http://twitter4j.org/javadoc/
 The tool is mapped to the key $twitter and currently has the following methods implemented:
 * showUser - takes a twitter screen name or user id and returns a Twitter4J User Object:  http://twitter4j.org/javadoc/twitter4j/User.html
 * getUserTimeline - takes a twitter screen name or userid, a page number, and a count and returns a List of Twitter4J Status Objects:  http://twitter4j.org/javadoc/twitter4j/Status.html
-* getFollowersList - takes a twitter screen name or userid and returns the first 20 followers for that user.  The list returned containers Twitter4J User Objects.
+* getFollowersList - takes a twitter screen name or userid and returns the first 20 followers for that user.  The list returned containers Twitter4J User Objects.  Note that this method is not working so well currently due to the twitter apoi rate limits on fetching this data.  If you plan on using this I would seriously reccomend using a block cache around the method
 * getUserListStatuses - takes a twitter screen name or userid, a list slug, a page number, and a count and returns a list of Twitter4J Status Objects for the user's list.
 * If you would like to see more methods implemented please request them by submitting an issue to this github.
 
@@ -123,7 +123,7 @@ The tool is mapped to the key $twitter and currently has the following methods i
 
 <br style="clear:both" /><hr />
 
-## Get a User's followers
+## Get a User's followers - See note above about twitter api rate limit 
 #set($followers = $twitter.getFollowersList("chris_falzone"))
 <h2> Found $followers.size() Followers:</h2>
 <dl>
