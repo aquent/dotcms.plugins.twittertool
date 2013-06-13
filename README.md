@@ -1,16 +1,16 @@
 Twitter Viewtool
 =================================================
-A plugin for dotCMS that adds a viewtool for interacting with Twitter
+A plugin for dotCMS that adds a viewtool for interacting with Twitter using Twitter4J.
 
 Installation
 ==================================
 * Download and extract the plugin package to your {DOTCMS_ROOT}/plugins directory
-* You will need to get twitter auth tokens from twitter
-* Configure Twitter4J
+* You will need to create an application and get twitter auth tokens from twitter:  See https://dev.twitter.com/apps
+* Configure Twitter4J with your auth tokens from twitter
 
 Twitter4J Configuration
 ===================================
-You can configure Twitter4J either by placing the properties in your startup script in the JAVA_OPTS or by setting environment variables:
+You can configure Twitter4J either by placing the properties in your startup script (startup.sh or startup.bat or wrapper.conf) in the JAVA_OPTS or by setting environment variables:
 
 To pass the variables in your startup script add the following to your JAVA_OPTS:
   -Dtwitter4j.oauth.consumerKey=you get this from twitter
@@ -18,11 +18,17 @@ To pass the variables in your startup script add the following to your JAVA_OPTS
   -Dtwitter4j.oauth.accessToken=you get this from twitter
   -Dtwitter4j.oauth.accessTokenSecret=you get this from twitter
   
-For More information see their website:  http://twitter4j.org/en/configuration.html
+For More information see the Twitter4J website:  http://twitter4j.org/en/configuration.html
 
 Usage:
 ======
-TODO:  Needs some better doc here but this is the idea anyway:
+You will want to have to Twitter4J JavaDoc handy:  http://twitter4j.org/javadoc/index.html
+The tool is mapped to the key $twitter and currently has the following methods implemented:
+* showUser - takes a twitter screen name or user id and returns a Twitter4J User Object:  http://twitter4j.org/javadoc/twitter4j/User.html
+* getUserTimeline - takes a twitter screen name or userid, a page number, and a count and returns a List of Twitter4J Status Objects:  http://twitter4j.org/javadoc/twitter4j/Status.html
+* getFollowersList - takes a twitter screen name or userid and returns the first 20 followers for that user.  The list returned containers Twitter4J User Objects.
+* getUserListStatuses - takes a twitter screen name or userid, a list slug, a page number, and a count and returns a list of Twitter4J Status Objects for the user's list.
+* If you would like to see more methods implemented please request them by submitting an issue to this github.
 
 ```velocity
 ## Just defining a macro to display a status

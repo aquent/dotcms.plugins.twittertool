@@ -145,7 +145,7 @@ public class TwitterTool implements ViewTool {
     public PagableResponseList<User> getFollowersList(String screenName) {
     	if(inited) {
     		try {
-				return twitter.getFollowersList(screenName, -1L);
+				return twitter.getFollowersList(screenName, -1);
 			} catch (Exception e) {
 				Logger.error(this, "Error Fetching user's Followers", e);
 				return null;
