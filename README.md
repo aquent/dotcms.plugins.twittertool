@@ -100,6 +100,12 @@ TODO:  Needs some better doc here but this is the idea anyway:
 
 <br style="clear:both" /><hr />
 
+#set($tUser2 = $twitter.showUser(15378515))
+<h2>  User By ID </h2>
+#displayUser($tUser2)
+
+<br style="clear:both" /><hr />
+
 ## Get a user's timeline
 #set($statuses = $twitter.getUserTimeline("chris_falzone", 1, 5))
 <h2> Fetched $statuses.size() statuses </h2>
