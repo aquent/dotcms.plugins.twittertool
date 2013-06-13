@@ -5,7 +5,6 @@ import org.apache.velocity.tools.view.tools.ViewTool;
 import com.dotmarketing.util.Logger;
 import com.dotmarketing.util.UtilMethods;
 
-import twitter4j.IDs;
 import twitter4j.PagableResponseList;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
@@ -27,9 +26,11 @@ public class TwitterTool implements ViewTool {
     private boolean inited = false;
     
     public void init(Object initData) { 
+    	Logger.debug(this, "Twitter Tool Starting Up");
         try {
             twitter = new TwitterFactory().getInstance(); 
             inited = true;
+            Logger.info(this, "Twitter Tool Started Up");
         } catch (Exception e) {
             Logger.error(this, "Error getting twitter instance", e);
             inited = false;
