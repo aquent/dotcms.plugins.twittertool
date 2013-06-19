@@ -20,6 +20,10 @@ To pass the variables in your startup script add the following to your JAVA_OPTS
   
 For More information see the Twitter4J website:  http://twitter4j.org/en/configuration.html
 
+Note for those using 2.x
+==================================
+In order to get this to deploy you need to remove the old twitter4J jar from dotCMS/WEB-INF/lib for now.
+
 Usage:
 ======
 You will want to have to Twitter4J JavaDoc handy:  http://twitter4j.org/javadoc/index.html
