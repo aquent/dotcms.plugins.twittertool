@@ -1,28 +1,22 @@
-Twitter Viewtool
+Twitter OSGI Viewtool
 =================================================
-A plugin for dotCMS that adds a viewtool for interacting with Twitter using Twitter4J.
+An osgi plugin for dotCMS that adds a viewtool for interacting with Twitter using Twitter4J.
 
 Installation
 ==================================
-* Download and extract the plugin package to your {DOTCMS_ROOT}/plugins directory
-* You will need to create an application and get twitter auth tokens from twitter:  See https://dev.twitter.com/apps
-* Configure Twitter4J with your auth tokens from twitter
+* Take the .jar from build/jar and upload it to 
 
 Twitter4J Configuration
 ===================================
-You can configure Twitter4J either by placing the properties in your startup script (startup.sh or startup.bat or wrapper.conf) in the JAVA_OPTS or by setting environment variables:
+You need to create the following host variables and enter the values in your Default Host:
 
-To pass the variables in your startup script add the following to your JAVA_OPTS:
-  -Dtwitter4j.oauth.consumerKey=you get this from twitter
-  -Dtwitter4j.oauth.consumerSecret=you get this from twitter
-  -Dtwitter4j.oauth.accessToken=you get this from twitter
-  -Dtwitter4j.oauth.accessTokenSecret=you get this from twitter
+twitter4JConsumerKey - Text
+twitter4jConsumerSecret - Text
+twitter4jAccessToken - Text
+twitter4jAccessTokenSecret - Text
+twitter4jDebug - Boolean (Select or Radio with True/False)
   
 For More information see the Twitter4J website:  http://twitter4j.org/en/configuration.html
-
-Note for those using 2.x
-==================================
-In order to get this to deploy you need to remove the old twitter4J jar from dotCMS/WEB-INF/lib for now.
 
 Usage:
 ======
