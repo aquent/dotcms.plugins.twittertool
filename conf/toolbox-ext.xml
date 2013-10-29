@@ -1,5 +1,0 @@
-<tool>
-	<key>twitter</key>
-	<scope>application</scope>
-	<class>com.aquent.viewtools.TwitterTool</class>
-</tool>
