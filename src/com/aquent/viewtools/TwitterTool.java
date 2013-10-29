@@ -2,6 +2,8 @@ package com.aquent.viewtools;
 
 import org.apache.velocity.tools.view.tools.ViewTool;
 
+import com.dotmarketing.beans.Host;
+import com.dotmarketing.business.APILocator;
 import com.dotmarketing.util.Logger;
 import com.dotmarketing.util.UtilMethods;
 
@@ -12,6 +14,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
+import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * Exposes Twitter4J to dotCMS in a viewtool
@@ -27,14 +30,46 @@ public class TwitterTool implements ViewTool {
     
     public void init(Object initData) { 
     	Logger.debug(this, "Twitter Tool Starting Up");
+    	
+    	// Get the default host
+    	Host defaultHost;
+		try {
+			defaultHost = APILocator.getHostAPI().findDefaultHost(APILocator.getUserAPI().getSystemUser(), false);
+		} catch (Exception e) {
+			Logger.error(this, "Unable to get the default host", e);
+			return;
+		}
+		
+		ConfigurationBuilder cb = new ConfigurationBuilder();
+		cb.setDebugEnabled(defaultHost.getBoolProperty("twitter4jDebug"))
+		  .setOAuthConsumerKey(defaultHost.getStringProperty("twitter4jConsumerKey"))
+		  .setOAuthConsumerSecret(defaultHost.getStringProperty("twitter4jConsumerKey"))
+		  .setOAuthAccessToken(defaultHost.getStringProperty("twitter4jAccessToken"))
+		  .setOAuthAccessTokenSecret(defaultHost.getStringProperty("twitter4jTokenSecret"));
+    	
         try {
-            twitter = new TwitterFactory().getInstance(); 
-            inited = true;
-            Logger.info(this, "Twitter Tool Started Up");
+            twitter = new TwitterFactory(cb.build()).getInstance(); 
         } catch (Exception e) {
             Logger.error(this, "Error getting twitter instance", e);
-            inited = false;
+            return;
         }
+        
+        inited = true;
+        Logger.info(this, "Twitter Tool Started Up");
+    }
+    
+    /**
+     * Returns the twitter object - use with care
+     * 
+     * @return	The twitter object
+     */
+    public Twitter getTwitter() {
+    	if(inited) {
+    		return twitter;
+    	} else {
+    		Logger.warn(this, "ViewTool not inited");
+    		return null;
+    	}
     }
  
     /**

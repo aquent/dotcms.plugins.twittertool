@@ -7,7 +7,7 @@
     <property name="jar.name" value="bundle-${plugin.name}.jar"/>
     <property name="jar.file" value="${build.dir}/jar/${jar.name}"/>
 
-    <property name="app.base" value="/Users/cfalzone/dev/dotcms/master25"/>
+    <property name="app.base" value="/Users/cfalzone/dev/dotcms/master2.5"/>
     <property name="lib.app" value="${app.base}/dotCMS/WEB-INF/lib"/>
     <property name="lib.bundles" value="${app.base}/dotCMS/WEB-INF/felix/bundle"/>
     <property name="lib.server" value="${app.base}/tomcat/lib"/>
