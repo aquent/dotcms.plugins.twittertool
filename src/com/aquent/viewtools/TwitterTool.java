@@ -43,7 +43,7 @@ public class TwitterTool implements ViewTool {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(defaultHost.getBoolProperty("twitter4jDebug"))
 		  .setOAuthConsumerKey(defaultHost.getStringProperty("twitter4jConsumerKey"))
-		  .setOAuthConsumerSecret(defaultHost.getStringProperty("twitter4jConsumerKey"))
+		  .setOAuthConsumerSecret(defaultHost.getStringProperty("twitter4jConsumerSecret"))
 		  .setOAuthAccessToken(defaultHost.getStringProperty("twitter4jAccessToken"))
 		  .setOAuthAccessTokenSecret(defaultHost.getStringProperty("twitter4jTokenSecret"));
     	

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Author: Aquent, LLC (cfalzone@aquent.com)
 Bundle-Name: Twitter OSGI Viewtool
-Bundle-Activator: com.auqnet.plugins.twittertool.Activator
+Bundle-Activator: com.aquent.viewtools.Activator
 Bundle-SymbolicName: Twitter OSGI Viewtool
 Bundle-Version: 1.0.0
 Bundle-RequiredExecutionEnvironment: OSGi/Minimum-1.0
@@ -12,4 +12,6 @@ Import-Package:  org.osgi.service.http,
  org.apache.velocity.tools,
  org.apache.velocity.tools.view,
  org.apache.velocity.tools.view.tools,
- com.dotmarketing.util
+ com.dotmarketing.util,
+ com.dotmarketing.beans,
+ com.dotmarketing.business

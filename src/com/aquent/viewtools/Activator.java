@@ -12,7 +12,7 @@ public class Activator extends GenericBundleActivator {
         initializeServices( bundleContext );
 
         //Registering the ViewTool service
-        registerViewToolService( bundleContext, new MyToolInfo() );
+        registerViewToolService( bundleContext, new TwitterToolInfo() );
     }
 
     @Override

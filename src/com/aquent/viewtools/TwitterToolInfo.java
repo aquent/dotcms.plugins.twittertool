@@ -3,7 +3,7 @@ package com.aquent.viewtools;
 import org.apache.velocity.tools.view.context.ViewContext;
 import org.apache.velocity.tools.view.servlet.ServletToolInfo;
 
-public class MyToolInfo extends ServletToolInfo {
+public class TwitterToolInfo extends ServletToolInfo {
 
     @Override
     public String getKey () {
