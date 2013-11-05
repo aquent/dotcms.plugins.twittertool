@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Author: Aquent, LLC (cfalzone@aquent.com)
 Bundle-Name: Twitter OSGI Viewtool
-Bundle-Activator: com.aquent.viewtools.Activator
+Bundle-Activator: com.aquent.viewtools.TwitterToolActivator
 Bundle-SymbolicName: Twitter OSGI Viewtool
 Bundle-Version: 1.0.0
 Bundle-RequiredExecutionEnvironment: OSGi/Minimum-1.0

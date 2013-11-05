@@ -3,7 +3,7 @@ package com.aquent.viewtools;
 import com.dotmarketing.osgi.GenericBundleActivator;
 import org.osgi.framework.BundleContext;
 
-public class Activator extends GenericBundleActivator {
+public class TwitterToolActivator extends GenericBundleActivator {
 
     @Override
     public void start ( BundleContext bundleContext ) throws Exception {
