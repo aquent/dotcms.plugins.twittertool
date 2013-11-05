@@ -40,13 +40,25 @@ public class TwitterTool implements ViewTool {
 			return;
 		}
 		
+		Logger.info(this, "Default Host = "+defaultHost.getHostname());
+		
+		boolean debug = defaultHost.getBoolProperty("twitter4jDebug");
+		String ck = defaultHost.getStringProperty("twitter4jConsumerKey");
+		String cks = defaultHost.getStringProperty("twitter4jConsumerSecret");
+		String at = defaultHost.getStringProperty("twitter4jAccessToken");
+		String ats = defaultHost.getStringProperty("twitter4jTokenSecret");
+		
+		Logger.info(this, "Twitter Auth - CK="+ck+", CKS="+cks+", AT="+at+", ATS="+ats);
+		
 		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(defaultHost.getBoolProperty("twitter4jDebug"))
-		  .setOAuthConsumerKey(defaultHost.getStringProperty("twitter4jConsumerKey"))
-		  .setOAuthConsumerSecret(defaultHost.getStringProperty("twitter4jConsumerSecret"))
-		  .setOAuthAccessToken(defaultHost.getStringProperty("twitter4jAccessToken"))
-		  .setOAuthAccessTokenSecret(defaultHost.getStringProperty("twitter4jTokenSecret"));
+		cb.setDebugEnabled(debug)
+		  .setOAuthConsumerKey(ck)
+		  .setOAuthConsumerSecret(cks)
+		  .setOAuthAccessToken(at)
+		  .setOAuthAccessTokenSecret(ats);
     	
+		Logger.info(this, "Twitter Configuration: "+cb);
+		
         try {
             twitter = new TwitterFactory(cb.build()).getInstance(); 
         } catch (Exception e) {
