@@ -4,7 +4,9 @@ An osgi plugin for dotCMS that adds a viewtool for interacting with Twitter usin
 
 Installation
 ==================================
-* Take the .jar from build/jar and upload it to 
+* Navigate to the dotCMS Dynamic plugins page: "System" > "Dynamic Plugins"
+* Click on "Upload plugin" and select the .jar file located in the "build/jar/" folder
+* Click on "Exported Packages" and add the contents of the EXPORTS file to the bottom of the list   
 
 Twitter4J Configuration
 ===================================
