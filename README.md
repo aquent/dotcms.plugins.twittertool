@@ -2,14 +2,8 @@ Twitter OSGI Viewtool
 =================================================
 An osgi plugin for dotCMS that adds a viewtool for interacting with Twitter using Twitter4J.
 
-Installation
-==================================
-* Navigate to the dotCMS Dynamic plugins page: "System" > "Dynamic Plugins"
-* Click on "Upload plugin" and select the .jar file located in the "build/jar/" folder
-* Click on "Exported Packages" and add the contents of the EXPORTS file to the bottom of the list   
-
 Twitter4J Configuration
-===================================
+-----------------------
 You need to create the following host variables and enter the values in your Default Host:
 
 twitter4JConsumerKey - Text
@@ -20,8 +14,20 @@ twitter4jDebug - Boolean (Select or Radio with True/False)
   
 For More information see the Twitter4J website:  http://twitter4j.org/en/configuration.html
 
-Usage:
-======
+Installation
+------------
+* Make sure you have the Twitter4J Configuration setup before deploying the osgi jar
+* Navigate to the dotCMS Dynamic plugins page: "System" > "Dynamic Plugins"
+* Click on "Upload plugin" and select the .jar file located in the "build/jar/" folder
+* Click on "Exported Packages" and add the following to the bottom of the list  
+```
+,com.dotmarketing.beans,
+com.dotmarketing.business,
+com.dotmarketing.util
+```
+
+Usage
+------
 You will want to have to Twitter4J JavaDoc handy:  http://twitter4j.org/javadoc/index.html
 
 The tool is mapped to the key $twitter and currently has the following methods implemented:
@@ -160,6 +166,11 @@ If a method is not working check your log file, you probably exceeded the twitte
 </dl>
 ```
 
-Additional Info:
-====================================
+Building
+--------
+* Install Gradle (if not already installed)
+* gradle jar 
+
+Additional Info
+----------------
 This plugin includes software from Twitter4J.org.  You can see the license term at http://twitter4j.org/en/index.html#license
