@@ -55,7 +55,8 @@ public class TwitterTool implements ViewTool {
 		  .setOAuthConsumerKey(ck)
 		  .setOAuthConsumerSecret(cks)
 		  .setOAuthAccessToken(at)
-		  .setOAuthAccessTokenSecret(ats);
+		  .setOAuthAccessTokenSecret(ats)
+		  .setUseSSL(true);
     	
 		Logger.info(this, "Twitter Configuration: "+cb);
 		
