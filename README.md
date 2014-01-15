@@ -17,6 +17,9 @@ To pass the variables in your startup script add the following to your JAVA_OPTS
   -Dtwitter4j.oauth.consumerSecret=you get this from twitter
   -Dtwitter4j.oauth.accessToken=you get this from twitter
   -Dtwitter4j.oauth.accessTokenSecret=you get this from twitter
+  -Dtwitter4j.http.useSSL=true
+  
+Update SSL is now required by twitter.
   
 For More information see the Twitter4J website:  http://twitter4j.org/en/configuration.html
 
