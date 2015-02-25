@@ -40,7 +40,7 @@ jar {
 			'lib/twitter4j-media-support-3.0.3.jar',
 			'lib/twitter4j-stream-3.0.3.jar'
 		instruction 'DynamicImport-Package', '*'
-		instruction 'Import-Package', '!org.springframework.*', '!twitter4j.*', '*;version'
+		instruction 'Import-Package', '!org.springframework.*', '!twitter4j.*', '*;version=0'
 	}
 }
 
