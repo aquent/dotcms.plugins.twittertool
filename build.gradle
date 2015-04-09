@@ -51,8 +51,8 @@ jar {
  * the related artifacts accordingly
  */
 task processEmbedded << {
-	embedInstruction = jar.manifest.instructions.get("Embed-Dependency")
-	transitive = jar.manifest.instructions.get("Embed-Transitive");
+	ext.embedInstruction = jar.manifest.instructions.get("Embed-Dependency")
+	ext.transitive = jar.manifest.instructions.get("Embed-Transitive");
 	if(embedInstruction != null){
 		def includedArtifacts = [] as Set
 		getDependencies(embedInstruction,transitive).each { dependency ->
@@ -83,7 +83,7 @@ def getDependencies(embededList, recursive){
 		dependencyMap.put(dependency.moduleName,dependency)
 	}
 	embededList.each { embeded -> 
-		dependency = dependencyMap.get(embeded)
+		ext.dependency = dependencyMap.get(embeded)
 		if(dependency != null){
 			println "dependency "+dependency.name
 			dependencies.add(dependency)
