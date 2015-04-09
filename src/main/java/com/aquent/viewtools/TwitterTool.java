@@ -12,6 +12,7 @@ import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
@@ -40,7 +41,7 @@ public class TwitterTool implements ViewTool {
 			return;
 		}
 		
-		Logger.info(this, "Default Host = "+defaultHost.getHostname());
+		Logger.debug(this, "Default Host = "+defaultHost.getHostname());
 		
 		boolean debug = defaultHost.getBoolProperty("twitter4jDebug");
 		String ck = defaultHost.getStringProperty("twitter4jConsumerKey");
@@ -48,7 +49,7 @@ public class TwitterTool implements ViewTool {
 		String at = defaultHost.getStringProperty("twitter4jAccessToken");
 		String ats = defaultHost.getStringProperty("twitter4jTokenSecret");
 		
-		Logger.info(this, "Twitter Auth - CK="+ck+", CKS="+cks+", AT="+at+", ATS="+ats);
+		Logger.debug(this, "Twitter Auth - CK="+ck+", CKS="+cks+", AT="+at+", ATS="+ats);
 		
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(debug)
@@ -58,7 +59,7 @@ public class TwitterTool implements ViewTool {
 		  .setOAuthAccessTokenSecret(ats)
 		  .setUseSSL(true);
     	
-		Logger.info(this, "Twitter Configuration: "+cb);
+		Logger.debug(this, "Twitter Configuration: "+cb);
 		
         try {
             twitter = new TwitterFactory(cb.build()).getInstance(); 
@@ -100,10 +101,21 @@ public class TwitterTool implements ViewTool {
         	if(!UtilMethods.isSet(page)) page = 1;
         	if(!UtilMethods.isSet(count)) count = 20;
         	
+        	// See if this username is a miss
+        	boolean isMiss = TwitterToolMissCacheGroupHandler.INSTANCE.get(screenName);
+        	if(isMiss) {
+        		Logger.debug(this, "Miss Cached with handle: "+screenName);
+        		return null;
+        	}
+        	
             try {
                 return twitter.getUserTimeline(screenName, new Paging(page, count));
-            } catch (Exception e) {
-                Logger.error(this, "Error Fetching timeline", e);
+            } catch (TwitterException e) {
+                Logger.error(this, "Error Fetching timeline for handle: "+screenName+" errorCode: "+e.getErrorCode(), e);
+                if(e.getErrorCode() == 34) {
+                	Logger.debug(this, "Adding "+screenName+" to the miss cache");
+                	TwitterToolMissCacheGroupHandler.INSTANCE.put(screenName, true);
+                }
                 return null;
             }
         } else {
@@ -127,10 +139,21 @@ public class TwitterTool implements ViewTool {
         	if(!UtilMethods.isSet(page)) page = 1;
         	if(!UtilMethods.isSet(count)) count = 20;
         	
+        	// See if this username is a miss
+        	boolean isMiss = TwitterToolMissCacheGroupHandler.INSTANCE.get(String.valueOf(userId));
+        	if(isMiss) {
+        		Logger.debug(this, "Miss Cached with userId: "+userId);
+        		return null;
+        	}
+        	
             try {
                 return twitter.getUserTimeline(userId, new Paging(page, count));
-            } catch (Exception e) {
-                Logger.error(this, "Error Fetching timeline", e);
+            } catch (TwitterException e) {
+                Logger.error(this, "Error Fetching timeline for userId: "+userId+" errorCode: "+e.getErrorCode(), e);
+                if(e.getErrorCode() == 34) {
+                	Logger.debug(this, "Adding "+userId+" to the miss cache");
+                	TwitterToolMissCacheGroupHandler.INSTANCE.put(String.valueOf(userId), true);
+                }
                 return null;
             }
         } else {
@@ -149,12 +172,23 @@ public class TwitterTool implements ViewTool {
      */
     public User showUser(String screenName) {
     	if(inited) {
+    		// See if this username is a miss
+        	boolean isMiss = TwitterToolMissCacheGroupHandler.INSTANCE.get(screenName);
+        	if(isMiss) {
+        		Logger.debug(this, "Miss Cached with handle: "+screenName);
+        		return null;
+        	}
+        	
     		try {
 				return twitter.showUser(screenName);
-			} catch (Exception e) {
-				Logger.error(this, "Error Fetching user", e);
-				return null;
-			}
+    		} catch (TwitterException e) {
+                Logger.error(this, "Error Fetching user for handle: "+screenName+" errorCode: "+e.getErrorCode(), e);
+                if(e.getErrorCode() == 34) {
+                	Logger.debug(this, "Adding "+screenName+" to the miss cache");
+                	TwitterToolMissCacheGroupHandler.INSTANCE.put(screenName, true);
+                }
+                return null;
+            }
     	} else {
     		Logger.warn(this, "ViewTool not inited");
     		return null;
@@ -171,12 +205,23 @@ public class TwitterTool implements ViewTool {
      */
     public User showUser(long userId) {
     	if(inited) {
+    		// See if this username is a miss
+        	boolean isMiss = TwitterToolMissCacheGroupHandler.INSTANCE.get(String.valueOf(userId));
+        	if(isMiss) {
+        		Logger.debug(this, "Miss Cached with userId: "+userId);
+        		return null;
+        	}
+        	
     		try {
 				return twitter.showUser(userId);
-			} catch (Exception e) {
-				Logger.error(this, "Error Fetching user", e);
-				return null;
-			}
+    		} catch (TwitterException e) {
+                Logger.error(this, "Error Fetching user for userId: "+userId+" errorCode: "+e.getErrorCode(), e);
+                if(e.getErrorCode() == 34) {
+                	Logger.debug(this, "Adding "+userId+" to the miss cache");
+                	TwitterToolMissCacheGroupHandler.INSTANCE.put(String.valueOf(userId), true);
+                }
+                return null;
+            }
     	} else {
     		Logger.warn(this, "ViewTool not inited");
     		return null;
@@ -193,12 +238,23 @@ public class TwitterTool implements ViewTool {
      */
     public PagableResponseList<User> getFollowersList(String screenName) {
     	if(inited) {
+    		// See if this username is a miss
+        	boolean isMiss = TwitterToolMissCacheGroupHandler.INSTANCE.get(screenName);
+        	if(isMiss) {
+        		Logger.debug(this, "Miss Cached with handle: "+screenName);
+        		return null;
+        	}
+        	
     		try {
 				return twitter.getFollowersList(screenName, -1);
-			} catch (Exception e) {
-				Logger.error(this, "Error Fetching user's Followers", e);
-				return null;
-			}
+    		} catch (TwitterException e) {
+                Logger.error(this, "Error Fetching followers for handle: "+screenName+" errorCode: "+e.getErrorCode(), e);
+                if(e.getErrorCode() == 34) {
+                	Logger.debug(this, "Adding "+screenName+" to the miss cache");
+                	TwitterToolMissCacheGroupHandler.INSTANCE.put(screenName, true);
+                }
+                return null;
+            }
     	} else {
     		Logger.warn(this, "ViewTool not inited");
     		return null;
@@ -215,12 +271,23 @@ public class TwitterTool implements ViewTool {
      */
     public PagableResponseList<User> getFollowersList(long userId) {
     	if(inited) {
+    		// See if this username is a miss
+        	boolean isMiss = TwitterToolMissCacheGroupHandler.INSTANCE.get(String.valueOf(userId));
+        	if(isMiss) {
+        		Logger.debug(this, "Miss Cached with userId: "+userId);
+        		return null;
+        	}
+        	
     		try {
 				return twitter.getFollowersList(userId, -1);
-			} catch (Exception e) {
-				Logger.error(this, "Error Fetching user's Followers", e);
-				return null;
-			}
+    		} catch (TwitterException e) {
+                Logger.error(this, "Error Fetching followers for userId: "+userId+" errorCode: "+e.getErrorCode(), e);
+                if(e.getErrorCode() == 34) {
+                	Logger.debug(this, "Adding "+userId+" to the miss cache");
+                	TwitterToolMissCacheGroupHandler.INSTANCE.put(String.valueOf(userId), true);
+                }
+                return null;
+            }
     	} else {
     		Logger.warn(this, "ViewTool not inited");
     		return null;
@@ -238,12 +305,23 @@ public class TwitterTool implements ViewTool {
      */
     public PagableResponseList<User> getUserListMembers(String ownerScreenName, String slug) {
     	if(inited) {
+    		// See if this username is a miss
+        	boolean isMiss = TwitterToolMissCacheGroupHandler.INSTANCE.get(ownerScreenName);
+        	if(isMiss) {
+        		Logger.debug(this, "Miss Cached with handle: "+ownerScreenName);
+        		return null;
+        	}
+    		
     		try {
 				return twitter.getUserListMembers(ownerScreenName, slug, -1);
-			} catch (Exception e) {
-				Logger.error(this, "Error Fetching user's Followers", e);
-				return null;
-			}
+    		} catch (TwitterException e) {
+                Logger.error(this, "Error Fetching userlist members for handle: "+ownerScreenName+" errorCode: "+e.getErrorCode(), e);
+                if(e.getErrorCode() == 34) {
+                	Logger.debug(this, "Adding "+ownerScreenName+" to the miss cache");
+                	TwitterToolMissCacheGroupHandler.INSTANCE.put(ownerScreenName, true);
+                }
+                return null;
+            }
     	} else {
     		Logger.warn(this, "ViewTool not inited");
     		return null;
@@ -261,12 +339,23 @@ public class TwitterTool implements ViewTool {
      */
     public PagableResponseList<User> getUserListMembers(long ownerId, String slug) {
     	if(inited) {
+    		// See if this username is a miss
+        	boolean isMiss = TwitterToolMissCacheGroupHandler.INSTANCE.get(String.valueOf(ownerId));
+        	if(isMiss) {
+        		Logger.debug(this, "Miss Cached with userId: "+ownerId);
+        		return null;
+        	}
+        	
     		try {
 				return twitter.getUserListMembers(ownerId, slug, -1);
-			} catch (Exception e) {
-				Logger.error(this, "Error Fetching user's Followers", e);
-				return null;
-			}
+    		} catch (TwitterException e) {
+                Logger.error(this, "Error Fetching userlist members for userId: "+ownerId+" errorCode: "+e.getErrorCode(), e);
+                if(e.getErrorCode() == 34) {
+                	Logger.debug(this, "Adding "+ownerId+" to the miss cache");
+                	TwitterToolMissCacheGroupHandler.INSTANCE.put(String.valueOf(ownerId), true);
+                }
+                return null;
+            }
     	} else {
     		Logger.warn(this, "ViewTool not inited");
     		return null;
@@ -289,10 +378,21 @@ public class TwitterTool implements ViewTool {
     		if(!UtilMethods.isSet(page)) page = 1;
         	if(!UtilMethods.isSet(count)) count = 20;
         	
+        	// See if this username is a miss
+        	boolean isMiss = TwitterToolMissCacheGroupHandler.INSTANCE.get(ownerScreenName);
+        	if(isMiss) {
+        		Logger.debug(this, "Miss Cached with handle: "+ownerScreenName);
+        		return null;
+        	}
+        	
             try {
                 return twitter.getUserListStatuses(ownerScreenName, slug, new Paging(page, count));
-            } catch (Exception e) {
-                Logger.error(this, "Error Fetching list timeline", e);
+            } catch (TwitterException e) {
+                Logger.error(this, "Error Fetching tweets for handle: "+ownerScreenName+" errorCode: "+e.getErrorCode(), e);
+                if(e.getErrorCode() == 34) {
+                	Logger.debug(this, "Adding "+ownerScreenName+" to the miss cache");
+                	TwitterToolMissCacheGroupHandler.INSTANCE.put(ownerScreenName, true);
+                }
                 return null;
             }
         } else {
@@ -317,10 +417,21 @@ public class TwitterTool implements ViewTool {
     		if(!UtilMethods.isSet(page)) page = 1;
         	if(!UtilMethods.isSet(count)) count = 20;
         	
+        	// See if this username is a miss
+        	boolean isMiss = TwitterToolMissCacheGroupHandler.INSTANCE.get(String.valueOf(ownerId));
+        	if(isMiss) {
+        		Logger.debug(this, "Miss Cached with userId: "+ownerId);
+        		return null;
+        	}
+        	
             try {
                 return twitter.getUserListStatuses(ownerId, slug, new Paging(page, count));
-            } catch (Exception e) {
-                Logger.error(this, "Error Fetching list timeline", e);
+            } catch (TwitterException e) {
+                Logger.error(this, "Error Fetching tweets for userId: "+ownerId+" errorCode: "+e.getErrorCode(), e);
+                if(e.getErrorCode() == 34) {
+                	Logger.debug(this, "Adding "+ownerId+" to the miss cache");
+                	TwitterToolMissCacheGroupHandler.INSTANCE.put(String.valueOf(ownerId), true);
+                }
                 return null;
             }
         } else {
