@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-	compile('com.dotcms:dotcms:2.5.3') { transitive = true }
+	compile('com.dotcms:dotcms:3.2') { transitive = true }
 	provided('javax.servlet:servlet-api:2.5')
 	compile('org.twitter4j:twitter4j-core:3.0.3')
 }
