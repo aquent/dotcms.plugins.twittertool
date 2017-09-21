@@ -3,30 +3,34 @@ package com.aquent.viewtools;
 import org.apache.velocity.tools.view.context.ViewContext;
 import org.apache.velocity.tools.view.servlet.ServletToolInfo;
 
+/**
+ * TwitterTool Viewtool Info Class.
+ * @author cfalzone
+ */
 public class TwitterToolInfo extends ServletToolInfo {
 
     @Override
-    public String getKey () {
+    public String getKey() {
         return "twitter";
     }
 
     @Override
-    public String getScope () {
+    public String getScope() {
         return ViewContext.APPLICATION;
     }
 
     @Override
-    public String getClassname () {
+    public String getClassname() {
         return TwitterTool.class.getName();
     }
 
     @Override
-    public Object getInstance ( Object initData ) {
+    public Object getInstance(Object initData) {
 
         TwitterTool viewTool = new TwitterTool();
-        viewTool.init( initData );
+        viewTool.init(initData);
 
-        setScope( ViewContext.APPLICATION );
+        setScope(ViewContext.APPLICATION);
 
         return viewTool;
     }
