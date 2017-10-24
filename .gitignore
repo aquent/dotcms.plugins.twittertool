@@ -2,9 +2,11 @@
 /generated/
 /bin/
 .classpath
+.checkstyle
 .gradle/
 .project
 .settings/
 build/resources/
 build/tmp/
+build/com/
 .DS_Store
