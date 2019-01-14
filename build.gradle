@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-	compile('com.dotcms:dotcms:5.0.2') { transitive = true }
+	compile('com.dotcms:dotcms:5.0.3') { transitive = true }
 	provided('javax.servlet:servlet-api:2.5')
 	compile('org.twitter4j:twitter4j-core:4.0.6') {
 		exclude(module: 'commons-logging')
